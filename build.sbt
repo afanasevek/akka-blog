@@ -16,12 +16,13 @@ val sttpVersion = "3.0.0-RC13"
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-stream" % akkaVersion,
   "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
+  "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
+  "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion,
   "org.scalikejdbc" %% "scalikejdbc" % scalikejdbcVersion,
   "org.scalikejdbc" %% "scalikejdbc-config" % scalikejdbcVersion,
   "org.scalikejdbc" %% "scalikejdbc-joda-time" % scalikejdbcVersion,
   "org.postgresql" % "postgresql" % postgresVersion,
   "ch.qos.logback" % "logback-classic" % logbackClassicVersion,
-  "org.springframework" % "spring-core" % springVersion,
   "org.springframework" % "spring-context" % springVersion,
 
   "com.softwaremill.sttp.client3" %% "core" % sttpVersion % Test,

@@ -1,13 +1,12 @@
 package ru.afanasev.blog.config
 
-import akka.actor.ActorSystem
-import akka.event.Logging
+import akka.actor.typed.ActorSystem
+import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.stream.ActorMaterializer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.{Bean, Configuration}
 import ru.afanasev.blog.dao.UserDao
-import ru.afanasev.blog.routes.UserRoute
+import ru.afanasev.blog.routes.{MainRoute, UserRoute}
 
 import scala.concurrent.Future
 
@@ -15,16 +14,12 @@ import scala.concurrent.Future
 class AppConfig {
 
   @Autowired
-  val userRoute:UserRoute = null
+  val mainRoute:MainRoute = null
 
   @Bean
   def startActorSystem(): Future[Http.ServerBinding] ={
-    implicit val system: ActorSystem = ActorSystem("simple-http")
-    implicit val materializer: ActorMaterializer = ActorMaterializer()
-    implicit val log = Logging(system, getClass)
-    val port = 8080
-    val bindingFuture = Http().bindAndHandle(userRoute.userRoute, "localhost", port)
-    log.info(s"Server started at the port $port")
+    implicit val system = ActorSystem(Behaviors.empty, "my-system")
+    val bindingFuture = Http().newServerAt("localhost", 8080).bind(mainRoute.getRoute())
     bindingFuture
   }
   @Bean
@@ -34,6 +29,10 @@ class AppConfig {
   @Bean
   def getUserRoute(): UserRoute ={
     new UserRoute
+  }
+  @Bean
+  def getMainRoute():MainRoute={
+    new MainRoute
   }
 
 }
