@@ -12,6 +12,10 @@ val scalikejdbcVersion = "3.5.0"
 val logbackClassicVersion = "1.3.0-alpha5"
 val springVersion = "5.3.2"
 val sttpVersion = "3.0.0-RC13"
+val jwtAkkaHttpVersion = "1.3.1"
+
+
+resolvers ++= Seq("snapshots", "releases").map(Resolver.sonatypeRepo)
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-stream" % akkaVersion,
@@ -24,8 +28,9 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % postgresVersion,
   "ch.qos.logback" % "logback-classic" % logbackClassicVersion,
   "org.springframework" % "spring-context" % springVersion,
+  "com.emarsys" %% "jwt-akka-http" % jwtAkkaHttpVersion,
 
-  "com.softwaremill.sttp.client3" %% "core" % sttpVersion % Test,
+"com.softwaremill.sttp.client3" %% "core" % sttpVersion % Test,
   "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
   "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % Test,
   "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % Test

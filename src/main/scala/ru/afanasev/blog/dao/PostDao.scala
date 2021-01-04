@@ -30,12 +30,12 @@ object Post extends SQLSyntaxSupport[Post] {
   def apply(g: ResultName[Post])(rs: WrappedResultSet) = {
     new Post(
       postId = rs.get(g.userId),
-      isActive = rs.get(g.isModerator),
+      isActive = rs.get(g.isActive),
       moderationStatus = rs.get(g.moderationStatus),
-      moderationId = rs.get(g.regTime),
-      userId = rs.get(g.name),
-      time = rs.get(g.email),
-      title = rs.get(g.password),
+      moderationId = rs.get(g.moderationId),
+      userId = rs.get(g.userId),
+      time = rs.get(g.time),
+      title = rs.get(g.title),
       text = rs.get(g.text),
       viewCount = rs.get(g.viewCount))
   }

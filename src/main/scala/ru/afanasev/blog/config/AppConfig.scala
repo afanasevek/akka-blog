@@ -5,8 +5,9 @@ import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.{Bean, Configuration}
-import ru.afanasev.blog.dao.UserDao
-import ru.afanasev.blog.routes.{MainRoute, UserRoute}
+import ru.afanasev.blog.dao.{PostDao, UserDao}
+import ru.afanasev.blog.routes.{MainRoute, PostRoute, UserRoute}
+import ru.afanasev.blog.service.PostService
 
 import scala.concurrent.Future
 
@@ -27,12 +28,24 @@ class AppConfig {
     new UserDao
   }
   @Bean
+  def getPostDao ():PostDao = {
+    new PostDao
+  }
+  @Bean
   def getUserRoute(): UserRoute ={
     new UserRoute
   }
   @Bean
+  def getPostRoute():PostRoute={
+    new PostRoute
+  }
+  @Bean
   def getMainRoute():MainRoute={
     new MainRoute
+  }
+  @Bean
+  def getPostService():PostService = {
+    new PostService
   }
 
 }
