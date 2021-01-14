@@ -3,17 +3,19 @@ package ru.afanasev.blog.dao
 import org.springframework.stereotype.Component
 import ru.afanasev.blog.dao.ModerationStatus.ModerationStatus
 import scalikejdbc._
+
 @Component
 class PostDao {
-  def findAllPostsOrderByTimeDesc() ={
+  def findAllPostsOrderByTimeDesc(): List[Post] = {
     val p = Post.syntax("o")
-    DB localTx{ implicit session =>
+    DB readOnly { implicit session =>
       withSQL {
-        select.from(Post as p)
-      }.update.apply()
+        select.from(Post as p).orderBy(p.time).desc
+      }.map(Post(p.resultName)).list.apply()
     }
   }
 }
+
 case class Post(
                  postId: Long,
                  isActive: Boolean,
@@ -24,6 +26,7 @@ case class Post(
                  title: String,
                  text: String,
                  viewCount: Int)
+
 object Post extends SQLSyntaxSupport[Post] {
   override def tableName: String = "posts"
 
@@ -40,6 +43,7 @@ object Post extends SQLSyntaxSupport[Post] {
       viewCount = rs.get(g.viewCount))
   }
 }
+
 object ModerationStatus extends Enumeration {
   type ModerationStatus = Value
   val NEW, ACCEPTED, DECLINED = Value

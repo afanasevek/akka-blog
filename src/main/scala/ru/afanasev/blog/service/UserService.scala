@@ -2,7 +2,7 @@ package ru.afanasev.blog.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import ru.afanasev.blog.dao.UserDao
+import ru.afanasev.blog.dao.{User, UserDao}
 import ru.afanasev.blog.routes.PostRequest
 
 import scala.beans.BeanProperty
@@ -16,5 +16,10 @@ class UserService {
   def savePost(post: PostRequest): Unit ={
 
   }
+
+  def getUserById(id: Long): Option[User]={
+    userDao.findUserById(id)
+  }
+
 
 }

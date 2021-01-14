@@ -3,6 +3,8 @@ package ru.afanasev.blog.config
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
+import com.emarsys.jwt.akka.http.{JwtAuthentication, JwtConfig}
+import com.typesafe.config.ConfigFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.{Bean, Configuration}
 import ru.afanasev.blog.dao.{PostDao, UserDao}
@@ -47,5 +49,12 @@ class AppConfig {
   def getPostService():PostService = {
     new PostService
   }
+  @Bean
+  def getJwtAuth (): JwtAuthentication ={
+     new JwtAuthentication {
+      override val jwtConfig: JwtConfig = new JwtConfig(ConfigFactory.load())
+    }
+  }
+
 
 }

@@ -24,8 +24,13 @@ class UserDao {
     }
   }
 
-  def print(): String ={
-    "hello from context"
+  def findUserById(id: Long): Option[User] ={
+    val u = User.syntax("u")
+    DB readOnly { implicit session =>
+      withSQL {
+        select.from(User as u).where.eq(u.userId, id)
+      }.map(User(u.resultName)).single.apply()
+    }
   }
 }
 case class User(userId: Long, isModerator: Boolean, regTime: String, name: String, email: String, password: String, photo: Option[String])
